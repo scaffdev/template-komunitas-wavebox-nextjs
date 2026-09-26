@@ -1,0 +1,185 @@
+/* CSS Variables — Lighting: lampu utama redup menyala */
+:root {
+  --bg: #131314;
+  --surface: #1c1c1f;
+  --elevated: #232327;
+  --border: #2c2c31;
+  --border-light: #3a3a41;
+  --text-primary: #f2f2f0;
+  --text-muted: #a7a7b0;
+  --text-faint: #7a7a85;
+  --accent: #f472b6;
+  --accent-soft: rgba(244, 114, 182, 0.12);
+  --radius: 4px;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  /* Lampu utama redup: cahaya hangat dari atas, bukan neon */
+  background-image:
+    radial-gradient(ellipse 90% 42% at 50% -8%, rgba(255, 255, 255, 0.055), transparent 70%),
+    radial-gradient(ellipse 60% 28% at 50% 0%, rgba(244, 114, 182, 0.05), transparent 70%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-sans), 'Syne', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Sorotan lembut untuk konten utama — ruangan terasa punya fokus */
+main {
+  background-image: radial-gradient(
+    ellipse 70% 34% at 50% 4%,
+    rgba(255, 255, 255, 0.028),
+    transparent 70%
+  );
+}
+
+/* Typography — sorotan pada teks agar nyaman dibaca lama */
+h1,
+h2,
+.display {
+  font-family: var(--font-display), 'DM Serif Display', serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Meta kecil: tetap muted tapi tidak tenggelam */
+.text-muted,
+article p.text-muted,
+div p.text-muted,
+span.text-muted {
+  color: var(--text-muted);
+}
+
+/* Divider utility — terlihat di ruangan yang lebih terang */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* Accent underline: dari strip neon penuh → garis netral + sentuhan pink kecil */
+.section-heading {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.section-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 44px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* Foto: sorotan studio — border terang + bayangan dalam + lift brightness */
+.foto-bw {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow:
+    0 10px 36px rgba(0, 0, 0, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+.foto-bw img {
+  filter: grayscale(100%) brightness(1.04) contrast(1.04);
+  transition:
+    filter 400ms ease,
+    transform 600ms ease;
+}
+.foto-bw:hover {
+  border-color: var(--border-light);
+}
+.foto-bw:hover img {
+  filter: grayscale(0%) brightness(1.02) contrast(1.02);
+}
+
+/* Placeholder foto: tidak lagi lubang gelap */
+.foto-placeholder {
+  border: 1px dashed var(--border-light);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 30%, rgba(255, 255, 255, 0.045), transparent 70%),
+    var(--surface);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Blockquote sorotan: kutipan penting dapat cahaya sendiri */
+blockquote {
+  background: linear-gradient(to right, var(--accent-soft), transparent 85%);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+/* Link hover: dari flash neon → transisi lembut */
+a {
+  transition:
+    color 200ms ease,
+    opacity 200ms ease,
+    border-color 200ms ease;
+}
+
+/* Sorotan judul: hover pink yang lembut, bukan flash neon */
+.group:hover .group-hover\:text-accent {
+  color: #f9a8d4 !important;
+}
+a.hover\:text-accent:hover,
+.hover\:text-accent:hover {
+  color: #f9a8d4 !important;
+}
+
+/* Fokus keyboard tetap terlihat di ruangan terang */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Scrollbar — menyatu dengan ruangan */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+/* Selection — pink lembut, teks tetap terbaca */
+::selection {
+  background: rgba(244, 114, 182, 0.85);
+  color: #131314;
+}
