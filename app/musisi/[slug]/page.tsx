@@ -5,6 +5,7 @@ export function generateStaticParams() {
   return MUSISI.map((m) => ({ slug: m.slug }))
 }
 
-export default function HalamanProfil({ params }: { params: { slug: string } }) {
-  return <ProfilMusisi slug={params.slug} />
+export default async function HalamanProfil({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  return <ProfilMusisi slug={slug} />
 }

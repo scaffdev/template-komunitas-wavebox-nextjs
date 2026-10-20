@@ -8,9 +8,10 @@ Template landing page + direktori komunitas musik indie Indonesia.
 
 ## 1. Gambaran cepat
 
-**Stack:** Next.js 14 (App Router) · React 18 · Tailwind v3 · Supabase (opsional, bisa jalan tanpa backend) · TypeScript.
+**Stack:** Next.js 16 (App Router) · React 19 · Tailwind v4 · Supabase (opsional, bisa jalan tanpa backend) · TypeScript.
 
-```
+Syarat: **Node.js 22+** (dibutuhkan `@supabase/supabase-js` 2.114+), npm 10+.
+
 **Peta halaman (`app/`):**
 
 | Route | File | Isi |
@@ -162,8 +163,8 @@ Rasio: band/artikel/event `3:2`, avatar/galeri `1:1`. Cover `karya` di profil ma
 
 ## 9. Auth, Supabase, dashboard
 
-- `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `ANON_KEY`, `SERVICE_ROLE_KEY`, `SITE_URL`. Kosong = mode demo lokal.
-- Client/server/middleware: `lib/supabase/` + `middleware.ts` (proteksi `/dashboard`).
+- `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`. Kosong = mode demo lokal. (Project Supabase baru memakai publishable key — taruh di variabel ANON_KEY.)
+- Client/server: `lib/supabase/client.ts` + `lib/supabase/server.ts`; refresh session tiap request via `proxy.ts` (Next.js 16; dulu `middleware.ts`). Panduan copot ada di `REMOVE-SUPABASE.md`.
 - Tulis konten: `app/dashboard/artikel/baru` (`FormArtikelBaru`), event (`KelolaEvent`), profil (`FormProfil`) — belum ada upload foto; foto diatur lewat `data.ts`/§6.
 
 ---
@@ -176,4 +177,4 @@ Rasio: band/artikel/event `3:2`, avatar/galeri `1:1`. Cover `karya` di profil ma
 - [ ] Foto: Picsum masih dipakai atau sudah `/images/...`; tidak ada placeholder inisial yang tidak disengaja
 - [ ] `tailwind.config.js` + `globals.css` sinkron; aksen pink hanya di titik penting
 - [ ] `.env.local` produksi terisi (atau sadar jalan mode demo)
-- [ ] `npm run build` hijau, cek mobile 375px + desktop 1280px
+- [ ] `npm run lint` + `npm run build` hijau, cek mobile 375px + desktop 1280px

@@ -1,12 +1,23 @@
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from "@supabase/ssr";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+function env(): { url?: string; key?: string } {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  // Project baru Supabase memakai publishable key; anon key lama tetap didukung.
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  return { url, key };
+}
 
-export const supabaseTerkonfigurasi = Boolean(url && anon)
+/** True bila env Supabase terisi. Dipakai UI untuk menampilkan info "mode demo". */
+export const supabaseTerkonfigurasi = Boolean(env().url && env().key);
 
-/** Browser client. null kalau env Supabase belum diisi (mode demo lokal). */
+/**
+ * Browser client untuk Client Component. Mengembalikan `null` bila env belum
+ * diisi, agar halaman auth tetap berjalan dalam mode demo lokal.
+ */
 export function buatSupabaseBrowser() {
-  if (!supabaseTerkonfigurasi) return null
-  return createBrowserClient(url as string, anon as string)
+  const { url, key } = env();
+  if (!url || !key) return null;
+  return createBrowserClient(url, key);
 }

@@ -5,6 +5,7 @@ export function generateStaticParams() {
   return FORUM_THREADS.map((t) => ({ slug: t.slug }))
 }
 
-export default function HalamanThread({ params }: { params: { slug: string } }) {
-  return <ThreadDetail slug={params.slug} />
+export default async function HalamanThread({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  return <ThreadDetail slug={slug} />
 }

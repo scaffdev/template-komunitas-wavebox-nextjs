@@ -7,8 +7,9 @@ export function generateStaticParams() {
   return EVENTS.map((e) => ({ slug: e.slug }))
 }
 
-export default function HalamanDetailEvent({ params }: { params: { slug: string } }) {
-  const event = getEvent(params.slug)
+export default async function HalamanDetailEvent({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const event = getEvent(slug)
 
   if (!event) {
     return (

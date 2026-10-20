@@ -1,32 +1,38 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+function env(): { url?: string; key?: string } {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  return { url, key };
+}
 
-/** Server client untuk Server Component. null kalau env belum diisi. */
-export function buatSupabaseServer() {
-  if (!url || !anon) return null
-  const cookieStore = cookies()
-  return createServerClient(url, anon, {
+/**
+ * Server client untuk Server Component / Server Action / Route Handler.
+ * Mengembalikan `null` bila env belum diisi (mode demo lokal).
+ */
+export async function buatSupabaseServer() {
+  const { url, key } = env();
+  if (!url || !key) return null;
+
+  const cookieStore = await cookies();
+
+  return createServerClient(url, key, {
     cookies: {
-      get(name: string) {
-        return cookieStore.get(name)?.value
+      getAll() {
+        return cookieStore.getAll();
       },
-      set(name: string, value: string, options: CookieOptions) {
+      setAll(cookiesToSet) {
         try {
-          cookieStore.set({ name, value, ...options })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          );
         } catch {
-          /* dipanggil dari Server Component: abaikan */
-        }
-      },
-      remove(name: string, options: CookieOptions) {
-        try {
-          cookieStore.set({ name, value: '', ...options })
-        } catch {
-          /* abaikan */
+          // Dipanggil dari Server Component (cookie read-only) — abaikan.
         }
       },
     },
-  })
+  });
 }

@@ -1,1 +1,17 @@
-{"$schema":"https://scaffdev.vercel.app/schemas/scaff.template.json","framework":"nextjs","name":"WAVEBOX — Komunitas Musik Indie Indonesia","provides":{"supabase":["lib/supabase/client.ts","lib/supabase/server.ts","lib/supabase/middleware.ts","app/api/auth/callback/route.ts"]},"removalGuides":{"supabase":"REMOVE-SUPABASE.md"},"slug":"wavebox-nextjs"}
+{
+  "$schema": "https://scaffdev.vercel.app/schemas/scaff.template.json",
+  "name": "WAVEBOX — Komunitas Musik Indie Indonesia",
+  "slug": "komunitas-wavebox-nextjs",
+  "framework": "nextjs",
+  "provides": {
+    "supabase": [
+      "lib/supabase/client.ts",
+      "lib/supabase/server.ts",
+      "proxy.ts",
+      "app/api/auth/callback/route.ts"
+    ]
+  },
+  "removalGuides": {
+    "supabase": "REMOVE-SUPABASE.md"
+  }
+}
