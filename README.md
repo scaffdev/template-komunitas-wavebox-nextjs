@@ -163,7 +163,7 @@ Rasio: band/artikel/event `3:2`, avatar/galeri `1:1`. Cover `karya` di profil ma
 
 ## 9. Auth, Supabase, dashboard
 
-- `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`. Kosong = mode demo lokal. (Project Supabase baru memakai publishable key — taruh di variabel ANON_KEY.)
+- `.env.local`: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (atau `NEXT_PUBLIC_SUPABASE_ANON_KEY` untuk key legacy), `NEXT_PUBLIC_SITE_URL`. Kosong = mode demo lokal.
 - Client/server: `lib/supabase/client.ts` + `lib/supabase/server.ts`; refresh session tiap request via `proxy.ts` (Next.js 16; dulu `middleware.ts`). Panduan copot ada di `REMOVE-SUPABASE.md`.
 - Tulis konten: `app/dashboard/artikel/baru` (`FormArtikelBaru`), event (`KelolaEvent`), profil (`FormProfil`) — belum ada upload foto; foto diatur lewat `data.ts`/§6.
 
